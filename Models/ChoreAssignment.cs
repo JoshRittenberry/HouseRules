@@ -9,4 +9,5 @@ public class ChoreAssignment
     public int UserProfileId { get; set; }
     [Required]
     public int ChoreId { get; set; }
+    public Chore Chore { get; set; }
 }

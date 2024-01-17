@@ -4,6 +4,7 @@ using HouseRules.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace HouseRules.Data;
+
 public class HouseRulesDbContext : IdentityDbContext<IdentityUser>
 {
     private readonly IConfiguration _configuration;
@@ -45,6 +46,76 @@ public class HouseRulesDbContext : IdentityDbContext<IdentityUser>
             FirstName = "Admina",
             LastName = "Strator",
             Address = "101 Main Street",
+        });
+        modelBuilder.Entity<Chore>().HasData(new Chore[]
+        {
+            new Chore
+            {
+                Id = 1,
+                Name = "Laundry",
+                Difficutly = 2,
+                ChoreFrequencyDays = 3
+            },
+            new Chore
+            {
+                Id = 2,
+                Name = "Dishes",
+                Difficutly = 1,
+                ChoreFrequencyDays = 1
+            },
+            new Chore
+            {
+                Id = 3,
+                Name = "Vacuuming",
+                Difficutly = 2,
+                ChoreFrequencyDays = 5
+            },
+            new Chore
+            {
+                Id = 4,
+                Name = "Mowing the Lawn",
+                Difficutly = 3,
+                ChoreFrequencyDays = 7
+            },
+            new Chore
+            {
+                Id = 5,
+                Name = "Grocery Shopping",
+                Difficutly = 2,
+                ChoreFrequencyDays = 4
+            }
+        });
+        modelBuilder.Entity<ChoreAssignment>().HasData(new ChoreAssignment[]
+        {
+            new ChoreAssignment
+            {
+                Id = 1,
+                UserProfileId = 1,
+                ChoreId = 3
+            },
+            new ChoreAssignment
+            {
+                Id = 2,
+                UserProfileId = 1,
+                ChoreId = 5
+            }
+        });
+        modelBuilder.Entity<ChoreCompletion>().HasData(new ChoreCompletion[]
+        {
+            new ChoreCompletion
+            {
+                Id = 1,
+                UserProfileId = 1,
+                ChoreId = 1,
+                CompletedOn = new DateTime(2023, 1, 10)
+            },
+            new ChoreCompletion
+            {
+                Id = 2,
+                UserProfileId = 1,
+                ChoreId = 2,
+                CompletedOn = new DateTime(2024, 1, 12)
+            }
         });
     }
 }

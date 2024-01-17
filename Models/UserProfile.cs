@@ -8,8 +8,8 @@ public class UserProfile
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Address { get; set; }
-
     public string IdentityUserId { get; set; }
-
     public IdentityUser IdentityUser { get; set; }
+    public List<ChoreAssignment> AssignedChores { get; set; }
+    public List<ChoreCompletion> CompletedChores { get; set; }
 }
