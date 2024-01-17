@@ -8,6 +8,10 @@ namespace HouseRules.Data;
 public class HouseRulesDbContext : IdentityDbContext<IdentityUser>
 {
     private readonly IConfiguration _configuration;
+
+    public DbSet<Chore> Chores { get; set; }
+    public DbSet<ChoreAssignment> ChoreAssignments { get; set; }
+    public DbSet<ChoreCompletion> ChoreCompletions { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
 
     public HouseRulesDbContext(DbContextOptions<HouseRulesDbContext> context, IConfiguration config) : base(context)

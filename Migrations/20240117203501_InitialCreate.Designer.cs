@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HouseRules.Migrations
 {
     [DbContext(typeof(HouseRulesDbContext))]
-    [Migration("20240117194700_InitialCreate")]
+    [Migration("20240117203501_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace HouseRules.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chore");
+                    b.ToTable("Chores");
 
                     b.HasData(
                         new
@@ -102,7 +102,9 @@ namespace HouseRules.Migrations
 
                     b.HasIndex("ChoreId");
 
-                    b.ToTable("ChoreAssignment");
+                    b.HasIndex("UserProfileId");
+
+                    b.ToTable("ChoreAssignments");
 
                     b.HasData(
                         new
@@ -142,7 +144,7 @@ namespace HouseRules.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("ChoreCompletion");
+                    b.ToTable("ChoreCompletions");
 
                     b.HasData(
                         new
@@ -231,7 +233,7 @@ namespace HouseRules.Migrations
                         new
                         {
                             Id = "c3aaeb97-d2ba-4a53-a521-4eea61e59b35",
-                            ConcurrencyStamp = "80002de4-f330-43b9-b64b-060554bc2f65",
+                            ConcurrencyStamp = "814ccf73-b16e-4620-8ddf-465a82e5b69d",
                             Name = "Admin",
                             NormalizedName = "admin"
                         });
@@ -330,13 +332,13 @@ namespace HouseRules.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd42c115-62af-47e2-81e3-653e59a62027",
+                            ConcurrencyStamp = "8cf06785-ad17-4033-8ca0-c930fccf5bc2",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAECZQn9Nq9biqKbFUBUiOb6Gk6jw9a/uQbuPdZptzQue9hXO0BV+Mh5qxEGHnslnOrQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELpfHn+rv/LgrvzmFIJhBX4CN0YQvwrZg/SFeTf7mNKkd8F7H8F2gqkqgPs/5KCN1g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4ef9df30-74a6-405e-b179-663b12226604",
+                            SecurityStamp = "433d412e-9754-4903-8850-8c97f2bd44c1",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         });
@@ -438,6 +440,12 @@ namespace HouseRules.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HouseRules.Models.UserProfile", null)
+                        .WithMany("AssignedChores")
+                        .HasForeignKey("UserProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Chore");
                 });
 
@@ -450,7 +458,7 @@ namespace HouseRules.Migrations
                         .IsRequired();
 
                     b.HasOne("HouseRules.Models.UserProfile", "UserProfile")
-                        .WithMany()
+                        .WithMany("CompletedChores")
                         .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -525,6 +533,13 @@ namespace HouseRules.Migrations
             modelBuilder.Entity("HouseRules.Models.Chore", b =>
                 {
                     b.Navigation("ChoreCompletions");
+                });
+
+            modelBuilder.Entity("HouseRules.Models.UserProfile", b =>
+                {
+                    b.Navigation("AssignedChores");
+
+                    b.Navigation("CompletedChores");
                 });
 #pragma warning restore 612, 618
         }

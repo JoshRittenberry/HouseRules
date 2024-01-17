@@ -19,4 +19,54 @@ public class ChoreController : ControllerBase
     {
         _dbContext = context;
     }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult Get()
+    {
+        return Ok(_dbContext
+            .Chores
+            .Select(c => new ChoreDTO
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Difficutly = c.Difficutly,
+                ChoreFrequencyDays = c.ChoreFrequencyDays,
+                ChoreCompletions = null
+            })
+            .ToList()
+        );
+    }
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public IActionResult Get(int id)
+    {
+        var chore = _dbContext
+            .Chores
+            .Include(c => c.ChoreCompletions)
+            .SingleOrDefault(c => c.Id == id);
+
+        if (chore == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new ChoreDTO
+        {
+            Id = chore.Id,
+            Name = chore.Name,
+            Difficutly = chore.Difficutly,
+            ChoreFrequencyDays = chore.ChoreFrequencyDays,
+            ChoreCompletions = chore.ChoreCompletions.Select(cc => new ChoreCompletionDTO
+            {
+                Id = cc.Id,
+                UserProfileId = cc.UserProfileId,
+                UserProfile = null,
+                ChoreId = cc.ChoreId,
+                Chore = null,
+                CompletedOn = cc.CompletedOn
+            }).ToList()
+        });
+    }
 }
