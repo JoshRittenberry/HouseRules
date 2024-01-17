@@ -69,4 +69,54 @@ public class ChoreController : ControllerBase
             }).ToList()
         });
     }
+
+    [HttpPost("{id}/complete")]
+    [Authorize]
+    public IActionResult CreateChoreCompletion(int id, [FromQuery] int? userId)
+    {
+        // Check to see if the user exists
+        var user = _dbContext
+            .UserProfiles
+            .SingleOrDefault(up => up.Id == userId);
+
+        // If the user doesn't exist, return NotFound
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        // If the user does exsit, move on
+        else
+        {
+            // Check to see if the chore exists
+            var chore = _dbContext
+                .Chores
+                .SingleOrDefault(c => c.Id == id);
+
+            // If the chore doesn't exist, return NotFound
+            if (chore == null)
+            {
+                return NotFound();
+            }
+
+            // If the chore does exist, move on
+            // 1. build the choreCompletion object
+            var choreCompletion = new ChoreCompletion
+            {
+                UserProfileId = user.Id,
+                UserProfile = null,
+                ChoreId = chore.Id,
+                Chore = null,
+                CompletedOn = DateTime.Today
+            };
+
+            // 2. save the choreCompletion object
+            _dbContext.ChoreCompletions.Add(choreCompletion);
+            _dbContext.SaveChanges();
+
+            // 3. return the saved object
+            return NoContent();
+        }
+    }
+
 }
