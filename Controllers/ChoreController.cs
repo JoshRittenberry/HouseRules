@@ -231,4 +231,45 @@ public class ChoreController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{id}/unassign")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult DeleteChoreAssignment(int id, [FromQuery] int userId)
+    {
+        Chore choreToUnassign = _dbContext.Chores.SingleOrDefault(c => c.Id == id);
+        UserProfile userToUnassign = _dbContext.UserProfiles.SingleOrDefault(up => up.Id == userId);
+
+        // Check and make sure the User and Chore passed in exist
+        if (choreToUnassign == null || userToUnassign == null)
+        {
+            return NotFound();
+        }
+
+        // Check and make sure the User and Chore found match the Uesr and Chore passed in
+        else if (id != choreToUnassign.Id || userId != userToUnassign.Id)
+        {
+            return BadRequest();
+        }
+
+        // Find the Matching Assignment
+        ChoreAssignment choreAssignmentToDelete = _dbContext.ChoreAssignments.SingleOrDefault(ca => ca.UserProfileId == userId && ca.ChoreId == id);
+
+        // Check and make sure the Chore Assignemnt exists
+        if (choreAssignmentToDelete == null)
+        {
+            return NotFound();
+        }
+
+        // Check and make sure the User and Chore match the Chore Assignemnt properties
+        else if (id != choreAssignmentToDelete.ChoreId || userId != choreAssignmentToDelete.UserProfileId)
+        {
+            return BadRequest();
+        }
+
+        // Remove the Chore Assignment
+        _dbContext.Remove(choreAssignmentToDelete);
+        _dbContext.SaveChanges();
+
+        return NoContent();
+    }
 }
