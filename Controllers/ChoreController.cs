@@ -130,14 +130,18 @@ public class ChoreController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public IActionResult UpdateChore(Chore chore, int id)
     {
-        var choreToUpdate = _dbContext.Chores.SingleOrDefault(c => c.Id == id);
+        Chore choreToUpdate = _dbContext.Chores.SingleOrDefault(c => c.Id == id);
 
         if (choreToUpdate == null)
         {
             return NotFound();
+        }
+        else if (id != choreToUpdate.Id)
+        {
+            return BadRequest();
         }
 
         bool isUpdated = true;
@@ -173,5 +177,26 @@ public class ChoreController : ControllerBase
         {
             return NoContent();
         }
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult DeleteChore(int id)
+    {
+        Chore choreToDelete = _dbContext.Chores.SingleOrDefault(c => c.Id == id);
+        if (choreToDelete == null)
+        {
+            return NotFound();
+        }
+
+        else if (id != choreToDelete.Id)
+        {
+            return BadRequest();
+        }
+
+        _dbContext.Remove(choreToDelete);
+        _dbContext.SaveChanges();
+
+        return NoContent();
     }
 }
