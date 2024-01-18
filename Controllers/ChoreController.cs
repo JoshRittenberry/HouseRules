@@ -119,4 +119,13 @@ public class ChoreController : ControllerBase
         }
     }
 
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult CreateNewChore(Chore chore)
+    {
+        _dbContext.Chores.Add(chore);
+        _dbContext.SaveChanges();
+
+        return Created($"/api/workorder/{chore.Id}", chore);
+    }
 }

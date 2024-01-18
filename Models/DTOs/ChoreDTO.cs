@@ -6,5 +6,5 @@ public class ChoreDTO
     public string Name { get; set; }
     public int Difficutly { get; set; }
     public int ChoreFrequencyDays { get; set; }
-    public List<ChoreCompletionDTO> ChoreCompletions { get; set; }
+    public List<ChoreCompletionDTO>? ChoreCompletions { get; set; }
 }
