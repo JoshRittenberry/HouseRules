@@ -129,6 +129,38 @@ public class ChoreController : ControllerBase
         return Created($"/api/workorder/{chore.Id}", chore);
     }
 
+    [HttpPost("{id}/assign")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult CreateChoreAssignment(int id, [FromQuery] int userId)
+    {
+        Chore choreToAssign = _dbContext.Chores.SingleOrDefault(c => c.Id == id);
+        UserProfile userToAssign = _dbContext.UserProfiles.SingleOrDefault(up => up.Id == userId);
+
+        // Check and make sure the User and Chore passed in exist
+        if (choreToAssign == null || userToAssign == null)
+        {
+            return NotFound();
+        }
+
+        // Check and make sure the User and Chore found match the Uesr and Chore passed in
+        else if (id != choreToAssign.Id || userId != userToAssign.Id)
+        {
+            return BadRequest();
+        }
+
+        // Build the Object
+        ChoreAssignment newChoreAssignment = new ChoreAssignment
+        {
+            UserProfileId = userId,
+            ChoreId = id
+        };
+
+        _dbContext.ChoreAssignments.Add(newChoreAssignment);
+        _dbContext.SaveChanges();
+
+        return Ok();
+    }
+
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public IActionResult UpdateChore(Chore chore, int id)
