@@ -1,4 +1,4 @@
-const _apiUrl = "/api/auth";
+const _apiUrl = "/api/Auth";
 
 export const login = (email, password) => {
     return fetch(_apiUrl + "/login", {
