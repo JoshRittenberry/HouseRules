@@ -8,7 +8,7 @@ public class Chore
     [Required]
     public string Name { get; set; }
     [Required]
-    public int Difficutly { get; set; }
+    public int Difficulty { get; set; }
     [Required]
     public int ChoreFrequencyDays { get; set; }
     public List<ChoreCompletion>? ChoreCompletions { get; set; }

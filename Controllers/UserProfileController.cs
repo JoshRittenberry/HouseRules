@@ -70,7 +70,7 @@ public class UserProfileController : ControllerBase
                 {
                     Id = ac.Chore.Id,
                     Name = ac.Chore.Name,
-                    Difficutly = ac.Chore.Difficutly,
+                    Difficulty = ac.Chore.Difficulty,
                     ChoreFrequencyDays = ac.Chore.ChoreFrequencyDays,
                     ChoreCompletions = null
                 }
@@ -85,7 +85,7 @@ public class UserProfileController : ControllerBase
                 {
                     Id = cc.Chore.Id,
                     Name = cc.Chore.Name,
-                    Difficutly = cc.Chore.Difficutly,
+                    Difficulty = cc.Chore.Difficulty,
                     ChoreFrequencyDays = cc.Chore.ChoreFrequencyDays,
                     ChoreCompletions = null
                 },

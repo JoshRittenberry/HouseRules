@@ -57,35 +57,35 @@ public class HouseRulesDbContext : IdentityDbContext<IdentityUser>
             {
                 Id = 1,
                 Name = "Laundry",
-                Difficutly = 2,
+                Difficulty = 2,
                 ChoreFrequencyDays = 3
             },
             new Chore
             {
                 Id = 2,
                 Name = "Dishes",
-                Difficutly = 1,
+                Difficulty = 1,
                 ChoreFrequencyDays = 1
             },
             new Chore
             {
                 Id = 3,
                 Name = "Vacuuming",
-                Difficutly = 2,
+                Difficulty = 2,
                 ChoreFrequencyDays = 5
             },
             new Chore
             {
                 Id = 4,
                 Name = "Mowing the Lawn",
-                Difficutly = 3,
+                Difficulty = 3,
                 ChoreFrequencyDays = 7
             },
             new Chore
             {
                 Id = 5,
                 Name = "Grocery Shopping",
-                Difficutly = 2,
+                Difficulty = 2,
                 ChoreFrequencyDays = 4
             }
         });

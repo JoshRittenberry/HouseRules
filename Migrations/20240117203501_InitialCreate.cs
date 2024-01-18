@@ -56,7 +56,7 @@ namespace HouseRules.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Difficutly = table.Column<int>(type: "integer", nullable: false),
+                    Difficulty = table.Column<int>(type: "integer", nullable: false),
                     ChoreFrequencyDays = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -257,7 +257,7 @@ namespace HouseRules.Migrations
 
             migrationBuilder.InsertData(
                 table: "Chores",
-                columns: new[] { "Id", "ChoreFrequencyDays", "Difficutly", "Name" },
+                columns: new[] { "Id", "ChoreFrequencyDays", "Difficulty", "Name" },
                 values: new object[,]
                 {
                     { 1, 3, 2, "Laundry" },

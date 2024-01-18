@@ -35,7 +35,7 @@ namespace HouseRules.Migrations
                     b.Property<int>("ChoreFrequencyDays")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Difficutly")
+                    b.Property<int>("Difficulty")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -51,35 +51,35 @@ namespace HouseRules.Migrations
                         {
                             Id = 1,
                             ChoreFrequencyDays = 3,
-                            Difficutly = 2,
+                            Difficulty = 2,
                             Name = "Laundry"
                         },
                         new
                         {
                             Id = 2,
                             ChoreFrequencyDays = 1,
-                            Difficutly = 1,
+                            Difficulty = 1,
                             Name = "Dishes"
                         },
                         new
                         {
                             Id = 3,
                             ChoreFrequencyDays = 5,
-                            Difficutly = 2,
+                            Difficulty = 2,
                             Name = "Vacuuming"
                         },
                         new
                         {
                             Id = 4,
                             ChoreFrequencyDays = 7,
-                            Difficutly = 3,
+                            Difficulty = 3,
                             Name = "Mowing the Lawn"
                         },
                         new
                         {
                             Id = 5,
                             ChoreFrequencyDays = 4,
-                            Difficutly = 2,
+                            Difficulty = 2,
                             Name = "Grocery Shopping"
                         });
                 });

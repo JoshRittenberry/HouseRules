@@ -30,7 +30,7 @@ public class ChoreController : ControllerBase
             {
                 Id = c.Id,
                 Name = c.Name,
-                Difficutly = c.Difficutly,
+                Difficulty = c.Difficulty,
                 ChoreFrequencyDays = c.ChoreFrequencyDays,
                 ChoreCompletions = null
             })
@@ -56,7 +56,7 @@ public class ChoreController : ControllerBase
         {
             Id = chore.Id,
             Name = chore.Name,
-            Difficutly = chore.Difficutly,
+            Difficulty = chore.Difficulty,
             ChoreFrequencyDays = chore.ChoreFrequencyDays,
             ChoreCompletions = chore.ChoreCompletions.Select(cc => new ChoreCompletionDTO
             {
@@ -127,5 +127,51 @@ public class ChoreController : ControllerBase
         _dbContext.SaveChanges();
 
         return Created($"/api/workorder/{chore.Id}", chore);
+    }
+
+    [HttpPut("{id}")]
+    // [Authorize(Roles = "Admin")]
+    public IActionResult UpdateChore(Chore chore, int id)
+    {
+        var choreToUpdate = _dbContext.Chores.SingleOrDefault(c => c.Id == id);
+
+        if (choreToUpdate == null)
+        {
+            return NotFound();
+        }
+
+        bool isUpdated = true;
+
+        // Update Name
+        if (!string.IsNullOrWhiteSpace(chore.Name) && chore.Name != choreToUpdate.Name)
+        {
+            choreToUpdate.Name = chore.Name.Trim();
+            isUpdated = true;
+        }
+
+        // Update Difficulty
+        if (chore.Difficulty != 0 && chore.Difficulty != choreToUpdate.Difficulty)
+        {
+            choreToUpdate.Difficulty = chore.Difficulty;
+            isUpdated = true;
+        }
+
+        // Update Frequency 
+        if (chore.ChoreFrequencyDays != 0 && chore.ChoreFrequencyDays != choreToUpdate.ChoreFrequencyDays)
+        {
+            choreToUpdate.ChoreFrequencyDays = chore.ChoreFrequencyDays;
+            isUpdated = true;
+        }
+
+        if (isUpdated)
+        {
+            _dbContext.SaveChanges();
+            return Ok(choreToUpdate);
+        }
+
+        else
+        {
+            return NoContent();
+        }
     }
 }
