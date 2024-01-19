@@ -26,13 +26,33 @@ public class ChoreController : ControllerBase
     {
         return Ok(_dbContext
             .Chores
+            .Include(c => c.ChoreCompletions)
+                .ThenInclude(cc => cc.UserProfile)
             .Select(c => new ChoreDTO
             {
                 Id = c.Id,
                 Name = c.Name,
                 Difficulty = c.Difficulty,
                 ChoreFrequencyDays = c.ChoreFrequencyDays,
-                ChoreCompletions = null
+                ChoreCompletions = c.ChoreCompletions.Select(cc => new ChoreCompletionDTO
+                {
+                    Id = cc.Id,
+                    UserProfileId = cc.UserProfileId,
+                    UserProfile = new UserProfileDTO
+                    {
+                        Id = cc.UserProfile.Id,
+                        FirstName = cc.UserProfile.FirstName,
+                        LastName = cc.UserProfile.LastName,
+                        Address = cc.UserProfile.Address,
+                        IdentityUserId = cc.UserProfile.IdentityUserId,
+                        IdentityUser = cc.UserProfile.IdentityUser,
+                        AssignedChores = null,
+                        CompletedChores = null
+                    },
+                    ChoreId = cc.ChoreId,
+                    Chore = null,
+                    CompletedOn = cc.CompletedOn
+                }).ToList()
             })
             .ToList()
         );
@@ -45,6 +65,7 @@ public class ChoreController : ControllerBase
         var chore = _dbContext
             .Chores
             .Include(c => c.ChoreCompletions)
+                .ThenInclude(cc => cc.UserProfile)
             .SingleOrDefault(c => c.Id == id);
 
         if (chore == null)
@@ -62,7 +83,17 @@ public class ChoreController : ControllerBase
             {
                 Id = cc.Id,
                 UserProfileId = cc.UserProfileId,
-                UserProfile = null,
+                UserProfile = new UserProfileDTO
+                {
+                    Id = cc.UserProfile.Id,
+                    FirstName = cc.UserProfile.FirstName,
+                    LastName = cc.UserProfile.LastName,
+                    Address = cc.UserProfile.Address,
+                    IdentityUserId = cc.UserProfile.IdentityUserId,
+                    IdentityUser = cc.UserProfile.IdentityUser,
+                    AssignedChores = null,
+                    CompletedChores = null
+                },
                 ChoreId = cc.ChoreId,
                 Chore = null,
                 CompletedOn = cc.CompletedOn

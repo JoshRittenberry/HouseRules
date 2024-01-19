@@ -15,7 +15,17 @@ export const createChore = (newChore) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(newChore),
-    }).then((res) => res.json)
+    }).then((res) => res.json())
+}
+
+export const createChoreCompletion = (choreId, userId) => {
+    console.log(`${_apiUrl}/${choreId}/complete?userId=${userId}`)
+    return fetch(`${_apiUrl}/${choreId}/complete?userId=${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
 }
 
 export const deleteChore = (id) => {

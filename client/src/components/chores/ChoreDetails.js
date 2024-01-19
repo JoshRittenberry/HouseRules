@@ -23,6 +23,7 @@ export const ChoreDetails = () => {
                             <th>Difficulty</th>
                             <th>Frequency</th>
                             <th>Last Completed On</th>
+                            <th>Last Completed By</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,7 +31,16 @@ export const ChoreDetails = () => {
                             <th scope="row">{chore.name}</th>
                             <td>{chore.difficulty}</td>
                             <td>{chore.choreFrequencyDays}</td>
-                            <td>{chore.choreCompletions?.slice(-1)[0].completedOn.split("T")[0]}</td>
+                            <td>
+                                {chore.choreCompletions?.length > 0
+                                    ? chore.choreCompletions.slice(-1)[0].completedOn.split("T")[0]
+                                    : "No Previous Completion"}
+                            </td>
+                            <td>
+                                {chore.choreCompletions?.length > 0
+                                    ? `${chore.choreCompletions.slice(-1)[0].userProfile.firstName} ${chore.choreCompletions.slice(-1)[0].userProfile.lastName}`
+                                    : "No Previous Completion"}
+                            </td>
                         </tr>
                     </tbody>
                 </Table>
