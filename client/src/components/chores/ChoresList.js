@@ -40,49 +40,54 @@ export const ChoresList = ({ loggedInUser }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {chores.map(c => {
-                        return (
-                            <tr key={`chore-${c.id}`}>
-                                <th scope="row">{c.name}</th>
-                                <td>{c.difficulty}</td>
-                                <td>{c.choreFrequencyDays} Days</td>
-                                <td>
-                                    {c.choreCompletions?.length > 0
-                                        ? c.choreCompletions.slice(-1)[0].completedOn.split("T")[0]
-                                        : "No Previous Completion"}
-                                </td>
-                                <td>
-                                    {c.choreCompletions?.length > 0
-                                        ? `${c.choreCompletions.slice(-1)[0].userProfile.firstName} ${c.choreCompletions.slice(-1)[0].userProfile.lastName}`
-                                        : "No Previous Completion"}
-                                </td>
-                                <td>
-                                    <Button onClick={() => {
-                                        handleCompleteChore(c.id)
-                                    }}>
-                                        Complete
-                                    </Button>
-                                    {loggedInUser.roles.includes("Admin") && (
-                                        <>
-                                            <Button onClick={() => {
-                                                navigate(`/choredetails/${c.id}`)
-                                            }}>
-                                                View Chore
-                                            </Button>
-                                            <Button className="btn-danger" onClick={() => {
+                    {chores.map((c) => (
+                        <tr key={`chore-${c.id}`}>
+                            <th
+                                scope="row"
+                                style={c.daysSinceLastCompletion > c.choreFrequencyDays ? { color: "red" } : {}}
+                            >
+                                {c.name}
+                            </th>
+                            <td>{c.difficulty}</td>
+                            <td>{c.choreFrequencyDays} Days</td>
+                            <td>
+                                {c.choreCompletions?.length > 0
+                                    ? c.choreCompletions.slice(-1)[0].completedOn.split("T")[0]
+                                    : "No Previous Completion"}
+                            </td>
+                            <td>
+                                {c.choreCompletions?.length > 0
+                                    ? `${c.choreCompletions.slice(-1)[0].userProfile.firstName} ${c.choreCompletions.slice(-1)[0].userProfile.lastName}`
+                                    : "No Previous Completion"}
+                            </td>
+                            <td>
+                                <Button onClick={() => handleCompleteChore(c.id)}>Complete</Button>
+                                {loggedInUser.roles.includes("Admin") && (
+                                    <>
+                                        <Button
+                                            onClick={() => {
+                                                navigate(`/choredetails/${c.id}`);
+                                            }}
+                                        >
+                                            View Chore
+                                        </Button>
+                                        <Button
+                                            className="btn-danger"
+                                            onClick={() => {
                                                 deleteChore(c.id).then(() => {
-                                                    getChores().then(setChores)
-                                                })
-                                            }}>
-                                                Delete Chore
-                                            </Button>
-                                        </>
-                                    )}
-                                </td>
-                            </tr>
-                        )
-                    })}
+                                                    getChores().then(setChores);
+                                                });
+                                            }}
+                                        >
+                                            Delete Chore
+                                        </Button>
+                                    </>
+                                )}
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
+
             </Table>
         </>
     )

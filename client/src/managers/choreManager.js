@@ -36,6 +36,16 @@ export const createChoreCompletion = (choreId, userId) => {
     })
 }
 
+export const updateChore = (updatedChore, choreId) => {
+    return fetch(`${_apiUrl}/${choreId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedChore),
+    }).then((res) => res.json())
+}
+
 export const deleteChoreAssignment = (choreId, userId) => {
     console.log(`${_apiUrl}/${choreId}/unassign?userId=${userId}`)
     return fetch(`${_apiUrl}/${choreId}/unassign?userId=${userId}`, {

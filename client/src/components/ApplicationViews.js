@@ -8,6 +8,7 @@ import { UserProfileDetails } from "./userprofile/UserProfileDetails";
 import { ChoresList } from "./chores/ChoresList";
 import { ChoreDetails } from "./chores/ChoreDetails";
 import CreateChore from "./chores/CreateChore";
+import { MyChores } from "./chores/myChores";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -45,7 +46,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             </AuthorizedRoute>
           }
         />
-        <Route 
+        <Route
           path="choredetails/:choreId"
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
@@ -53,11 +54,19 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             </AuthorizedRoute>
           }
         />
-        <Route 
+        <Route
           path="createchore"
           element={
             <AuthorizedRoute roles={["Admin"]} loggedInUser={loggedInUser}>
               <CreateChore />
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="mychores/:userId"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <MyChores loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Button, Table } from "reactstrap"
-import { createChoreAssignment, deleteChoreAssignment, getChoreById } from "../../managers/choreManager"
+import { Button, Form, FormGroup, Input, Label, Table } from "reactstrap"
+import { createChoreAssignment, deleteChoreAssignment, getChoreById, updateChore } from "../../managers/choreManager"
 import './choreDetails.css'
 import { getUserProfiles } from "../../managers/userProfileManager"
 
 export const ChoreDetails = () => {
     const [chore, setChore] = useState({})
     const [users, setUsers] = useState([])
+    const [edit, setEdit] = useState(false)
 
     const params = useParams()
 
@@ -31,6 +32,36 @@ export const ChoreDetails = () => {
     return (
         <>
             <h1>Chore Details</h1>
+            {!edit && (
+                <Button onClick={() => {
+                    setEdit(true)
+                }}>
+                    Edit Chore
+                </Button>
+            )}
+            {edit && (
+                <>
+                    <Button className="btn-danger" onClick={() => {
+                        getChoreById(chore.id).then(setChore)
+                        setEdit(false)
+                    }}>
+                        Cancel
+                    </Button>
+                    <Button onClick={() => {
+                        var updatedChore = {
+                            name: chore.name,
+                            difficulty: chore.difficulty,
+                            choreFrequencyDays: chore.choreFrequencyDays
+                        }
+                        updateChore(updatedChore, chore.id).then(() => {
+                            getChoreById(params.choreId).then(setChore)
+                            setEdit(false)
+                        })
+                    }}>
+                        Save Changes
+                    </Button>
+                </>
+            )}
             <section className="chore-top">
                 <Table>
                     <thead>
@@ -44,9 +75,65 @@ export const ChoreDetails = () => {
                     </thead>
                     <tbody>
                         <tr key={`chore-${chore.id}`}>
-                            <th scope="row">{chore.name}</th>
-                            <td>{chore.difficulty}</td>
-                            <td>{chore.choreFrequencyDays}</td>
+                            {!edit && (
+                                <>
+                                    <td>{chore.name}</td>
+                                    <td>{chore.difficulty}</td>
+                                    <td>{chore.choreFrequencyDays}</td>
+                                </>
+                            )}
+                            {edit && (
+                                <>
+                                    <td>
+                                        <Form>
+                                            <FormGroup>
+                                                <Input
+                                                    type="text"
+                                                    id="name"
+                                                    value={chore.name}
+                                                    onChange={(e) => {
+                                                        var update = {...chore}
+                                                        update.name = e.target.value
+                                                        setChore(update)
+                                                    }}
+                                                />
+                                            </FormGroup>
+                                        </Form>
+                                    </td>
+                                    <td>
+                                        <Form>
+                                            <FormGroup>
+                                                <Input
+                                                    type="number"
+                                                    id="difficulty"
+                                                    value={chore.difficulty}
+                                                    onChange={(e) => {
+                                                        var update = { ...chore }
+                                                        update.difficulty = e.target.value
+                                                        setChore(update)
+                                                    }}
+                                                />
+                                            </FormGroup>
+                                        </Form>
+                                    </td>
+                                    <td>
+                                        <Form>
+                                            <FormGroup>
+                                                <Input
+                                                    type="number"
+                                                    id="frequency"
+                                                    value={chore.choreFrequencyDays}
+                                                    onChange={(e) => {
+                                                        var update = { ...chore }
+                                                        update.choreFrequencyDays = e.target.value
+                                                        setChore(update)
+                                                    }}
+                                                />
+                                            </FormGroup>
+                                        </Form>
+                                    </td>
+                                </>
+                            )}
                             <td>
                                 {chore.choreCompletions?.length > 0
                                     ? chore.choreCompletions.slice(-1)[0].completedOn.split("T")[0]
@@ -61,6 +148,7 @@ export const ChoreDetails = () => {
                     </tbody>
                 </Table>
             </section>
+
             <section className="chore-bottom">
                 <section className="chore-left">
                     <Table>
