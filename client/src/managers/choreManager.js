@@ -18,13 +18,28 @@ export const createChore = (newChore) => {
     }).then((res) => res.json())
 }
 
+export const createChoreAssignment = (choreId, userId) => {
+    return fetch(`${_apiUrl}/${choreId}/assign?userId=${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+}
+
 export const createChoreCompletion = (choreId, userId) => {
-    console.log(`${_apiUrl}/${choreId}/complete?userId=${userId}`)
     return fetch(`${_apiUrl}/${choreId}/complete?userId=${userId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         }
+    })
+}
+
+export const deleteChoreAssignment = (choreId, userId) => {
+    console.log(`${_apiUrl}/${choreId}/unassign?userId=${userId}`)
+    return fetch(`${_apiUrl}/${choreId}/unassign?userId=${userId}`, {
+        method: "DELETE"
     })
 }
 

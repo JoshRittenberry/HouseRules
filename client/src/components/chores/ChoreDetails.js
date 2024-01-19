@@ -1,17 +1,32 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Button, Table } from "reactstrap"
-import { getChoreById } from "../../managers/choreManager"
+import { createChoreAssignment, deleteChoreAssignment, getChoreById } from "../../managers/choreManager"
 import './choreDetails.css'
+import { getUserProfiles } from "../../managers/userProfileManager"
 
 export const ChoreDetails = () => {
-    const [chore, setProfile] = useState({})
+    const [chore, setChore] = useState({})
+    const [users, setUsers] = useState([])
 
     const params = useParams()
 
     useEffect(() => {
-        getChoreById(params.choreId).then(setProfile)
+        getChoreById(params.choreId).then(setChore)
+        getUserProfiles().then(setUsers)
     }, [])
+
+    const handleAssignmentCheckbox = (userId) => {
+        if (chore.choreAssignments.some(ca => ca.userProfile.id === userId)) {
+            deleteChoreAssignment(chore.id, userId).then(() => {
+                getChoreById(chore.id).then(setChore);
+            });
+        } else {
+            createChoreAssignment(chore.id, userId).then(() => {
+                getChoreById(chore.id).then(setChore);
+            });
+        }
+    };
 
     return (
         <>
@@ -49,7 +64,8 @@ export const ChoreDetails = () => {
             <section className="chore-bottom">
                 <section className="chore-left">
                     <Table>
-                        <thead>
+                        {/* Show currently assigned users */}
+                        {/* <thead>
                             <tr>
                                 <th>Assignments</th>
                             </tr>
@@ -69,6 +85,32 @@ export const ChoreDetails = () => {
                                     <td>There are no Chore Assignments...</td>
                                 </tr>
                             )}
+                        </tbody> */}
+
+                        {/* Show list of all users to set assignments */}
+                        <thead>
+                            <tr>
+                                <th>Assign Users</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Assign</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users?.map(u => (
+                                <tr key={u.id}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={chore.choreAssignments.some(ca => ca.userProfile.id === u.id)}
+                                            onChange={() => handleAssignmentCheckbox(u.id)}
+                                        />
+                                    </td>
+                                    <td>{u.firstName} {u.lastName}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </Table>
                 </section>
