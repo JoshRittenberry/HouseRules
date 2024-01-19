@@ -1,0 +1,25 @@
+/* Style for the parent section */
+.chore-bottom {
+    display: flex;
+    /* Display children side by side */
+    overflow-x: auto;
+    /* Add horizontal scroll if needed */
+}
+
+/* Style for the left child section */
+.chore-left {
+    flex: 1;
+    /* Take up equal space (adjust as needed) */
+    padding: 10px;
+    /* Add padding for spacing */
+    /* You can add more styles as needed */
+}
+
+/* Style for the right child section */
+.chore-right {
+    flex: 1;
+    /* Take up equal space (adjust as needed) */
+    padding: 10px;
+    /* Add padding for spacing */
+    /* You can add more styles as needed */
+}

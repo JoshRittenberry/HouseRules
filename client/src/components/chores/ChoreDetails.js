@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Button, Table } from "reactstrap"
 import { getChoreById } from "../../managers/choreManager"
+import './choreDetails.css'
 
 export const ChoreDetails = () => {
     const [chore, setProfile] = useState({})
@@ -46,23 +47,26 @@ export const ChoreDetails = () => {
                 </Table>
             </section>
             <section className="chore-bottom">
-                {/* <section className="chore-left">
+                <section className="chore-left">
                     <Table>
                         <thead>
                             <tr>
-                                <th>Assigned Chores</th>
+                                <th>Assignments</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {chore.assignedChores?.length > 0 ? (
-                                chore.assignedChores.map(ac => (
-                                    <tr key={`assignedChore-${ac.id}`}>
-                                        <td>{ac.chore.name}</td>
+                            {chore.choreAssignments?.length > 0 ? (
+                                chore.choreAssignments.map(ca => (
+                                    <tr key={`choreAssignment-${ca.id}`}>
+                                        <td>{ca.userProfile.firstName} {ca.userProfile.lastName}</td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td>There are no assigned chores...</td>
+                                    <td>There are no Chore Assignments...</td>
                                 </tr>
                             )}
                         </tbody>
@@ -72,24 +76,31 @@ export const ChoreDetails = () => {
                     <Table>
                         <thead>
                             <tr>
-                                <th>Completed Chores</th>
+                                <th>Completions</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Completed On</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {chore.completedChores?.length > 0 ? (
-                                chore.completedChores.map(cc => (
-                                    <tr key={`completedChore-${cc.id}`}>
-                                        <td>{cc.chore.name}</td>
+                            {chore.choreCompletions?.length > 0 ? (
+                                chore.choreCompletions.map(cc => (
+                                    <tr key={`choreCompletion-${cc.id}`}>
+                                        <td>{cc.userProfile.firstName} {cc.userProfile.lastName}</td>
+                                        <td>{cc.completedOn.split("T")[0]}</td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td>There are no completed chores...</td>
+                                    <td>There are no Chore Completions...</td>
+                                    <td></td>
                                 </tr>
                             )}
                         </tbody>
                     </Table>
-                </section> */}
+                </section>
             </section>
         </>
     )

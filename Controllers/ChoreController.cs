@@ -66,6 +66,8 @@ public class ChoreController : ControllerBase
             .Chores
             .Include(c => c.ChoreCompletions)
                 .ThenInclude(cc => cc.UserProfile)
+            .Include(c => c.ChoreAssignments)
+                .ThenInclude(ca => ca.UserProfile)
             .SingleOrDefault(c => c.Id == id);
 
         if (chore == null)
@@ -97,6 +99,24 @@ public class ChoreController : ControllerBase
                 ChoreId = cc.ChoreId,
                 Chore = null,
                 CompletedOn = cc.CompletedOn
+            }).ToList(),
+            ChoreAssignments = chore.ChoreAssignments.Select(ca => new ChoreAssignmentDTO
+            {
+                Id = ca.Id,
+                UserProfileId = ca.UserProfileId,
+                UserProfile = new UserProfileDTO
+                {
+                    Id = ca.UserProfile.Id,
+                    FirstName = ca.UserProfile.FirstName,
+                    LastName = ca.UserProfile.LastName,
+                    Address = ca.UserProfile.Address,
+                    IdentityUserId = ca.UserProfile.IdentityUserId,
+                    IdentityUser = ca.UserProfile.IdentityUser,
+                    AssignedChores = null,
+                    CompletedChores = null
+                },
+                ChoreId = ca.ChoreId,
+                Chore = null
             }).ToList()
         });
     }
