@@ -32,6 +32,9 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                                     <NavLink tag={RRNavLink} to="/chores">
                                         Chores
                                     </NavLink>
+                                    <NavLink tag={RRNavLink} to={`/mychores/${loggedInUser.id}`}>
+                                        My Chores
+                                    </NavLink>
                                     {loggedInUser.roles.includes("Admin") && (
                                             <NavLink tag={RRNavLink} to="/userprofiles">
                                                 User Profiles

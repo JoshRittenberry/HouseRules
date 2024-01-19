@@ -1,14 +1,14 @@
-import { Route, Routes } from "react-router-dom";
-import { AuthorizedRoute } from "./auth/AuthorizedRoute";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import { Home } from "./Home";
-import { UserProfileList } from "./userprofile/UserProfileList";
-import { UserProfileDetails } from "./userprofile/UserProfileDetails";
-import { ChoresList } from "./chores/ChoresList";
-import { ChoreDetails } from "./chores/ChoreDetails";
-import CreateChore from "./chores/CreateChore";
-import { MyChores } from "./chores/myChores";
+import { Route, Routes } from "react-router-dom"
+import { AuthorizedRoute } from "./auth/AuthorizedRoute"
+import Login from "./auth/Login"
+import Register from "./auth/Register"
+import { Home } from "./Home"
+import { UserProfileList } from "./userprofile/UserProfileList"
+import { UserProfileDetails } from "./userprofile/UserProfileDetails"
+import { ChoresList } from "./chores/ChoresList"
+import { ChoreDetails } from "./chores/ChoreDetails"
+import CreateChore from "./chores/CreateChore"
+import { MyChores } from "./chores/MyChores"
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -81,5 +81,5 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
     </Routes>
-  );
+  )
 }

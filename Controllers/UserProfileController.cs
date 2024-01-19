@@ -49,6 +49,7 @@ public class UserProfileController : ControllerBase
             .Include(up => up.IdentityUser)
             .Include(up => up.AssignedChores)
                 .ThenInclude(ac => ac.Chore)
+                    .ThenInclude(c => c.ChoreCompletions)
             .Include(up => up.CompletedChores)
                 .ThenInclude(cc => cc.Chore)
             .SingleOrDefault(up => up.Id == id);
@@ -72,7 +73,14 @@ public class UserProfileController : ControllerBase
                     Name = ac.Chore.Name,
                     Difficulty = ac.Chore.Difficulty,
                     ChoreFrequencyDays = ac.Chore.ChoreFrequencyDays,
-                    ChoreCompletions = null
+                    ChoreCompletions = ac.Chore.ChoreCompletions.Select(cc => new ChoreCompletionDTO
+                    {
+                        Id = cc.Id,
+                        UserProfileId = cc.UserProfileId,
+                        UserProfile = null,
+                        ChoreId = cc.ChoreId,
+                        CompletedOn = cc.CompletedOn
+                    }).ToList()
                 }
             }).ToList(),
             CompletedChores = foundUP.CompletedChores.Select(cc => new ChoreCompletionDTO
